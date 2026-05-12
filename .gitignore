@@ -18,3 +18,7 @@ __pycache__/
 .env
 .venv/
 venv/
+
+# Local Codex workspace notes.
+SKILL.md
+references/
