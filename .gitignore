@@ -1,0 +1,20 @@
+# Raw datasets and training artifacts are too large/noisy for normal Git.
+blood-cell-detection-datatset/
+train_results_*/
+val_train_results_*/
+train_results_*.zip
+val_train_results_*.zip
+result/
+confusion/
+Ultralytics/
+
+# Model checkpoints and generated caches.
+*.pt
+*.cache
+__pycache__/
+*.py[cod]
+
+# Local app/runtime files.
+.env
+.venv/
+venv/
