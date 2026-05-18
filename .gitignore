@@ -19,6 +19,9 @@ __pycache__/
 .venv/
 venv/
 
+# Local presentation exports.
+Machine_Learning_Model_Comparison_YOLO_vs_CNN*
+
 # Local Codex workspace notes.
 SKILL.md
 references/

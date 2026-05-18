@@ -1,6 +1,6 @@
 # Blood Cell Detection
 
-This repository contains utilities and saved reports for evaluating YOLO-based blood cell detection experiments. It is set up for workflows that download the Blood Cell Detection dataset, validate trained YOLO checkpoints, and compare training validation metrics against held-out test metrics.
+This repository contains utilities and saved reports for blood-cell object detection experiments. It includes YOLO evaluation utilities plus a Faster R-CNN CNN baseline with threshold tuning outputs.
 
 ## Repository Contents
 
@@ -9,6 +9,11 @@ This repository contains utilities and saved reports for evaluating YOLO-based b
 - `YOLO/evaluation/evaluation.py` compares training validation metrics with held-out test metrics and generates tables, Markdown reports, and plots.
 - `YOLO/test/runs/` contains generated validation summary files and an auto-generated test data YAML.
 - `YOLO/evaluation/outputs/` contains generated comparison reports and figures.
+- `CNN/train_detector.py` trains a Faster R-CNN detector from the same YOLO-format labels.
+- `CNN/evaluate.py` evaluates the CNN detector on a selected split.
+- `CNN/sweep_thresholds.py` searches score and NMS threshold pairs.
+- `CNN/record.md` records the CNN threshold-tuning history.
+- `CNN/outputs/` tracks lightweight metrics and sweep summaries. Model checkpoints remain local.
 
 ## Dataset
 
@@ -28,7 +33,7 @@ blood-cell-detection-datatset/
 
 ## Expected Local Artifacts
 
-Training outputs are expected to follow this structure when running validation or evaluation locally:
+YOLO training outputs are expected to follow this structure when running validation or evaluation locally:
 
 ```text
 train_results*/
@@ -38,7 +43,9 @@ train_results*/
     best.pt
 ```
 
-Large local artifacts, model checkpoints, caches, virtual environments, and downloaded datasets are ignored through `.gitignore`.
+CNN checkpoints are expected locally in `CNN/outputs/best_model.pt` and `CNN/outputs/last_model.pt`.
+
+Large local artifacts, model checkpoints, caches, virtual environments, downloaded datasets, and local presentation exports are ignored through `.gitignore`.
 
 ## Validate YOLO Checkpoints
 
@@ -57,6 +64,34 @@ python YOLO/test/test.py --metric map50_95 --no-plots
 ```
 
 The validation script writes ranked summaries to `YOLO/test/runs/`.
+
+## Train And Evaluate The CNN Detector
+
+Install the CNN dependencies:
+
+```bash
+pip install -r CNN/requirements.txt
+```
+
+Train the Faster R-CNN detector:
+
+```bash
+python CNN/train_detector.py --dataset-root blood-cell-detection-datatset --output-dir CNN/outputs
+```
+
+Evaluate the test split:
+
+```bash
+python CNN/evaluate.py --checkpoint CNN/outputs/best_model.pt --dataset-root blood-cell-detection-datatset --split test
+```
+
+Run the threshold sweep:
+
+```bash
+python CNN/sweep_thresholds.py --objective micro_f1
+```
+
+The tracked CNN outputs include `CNN/outputs/eval_test_metrics.json`, `CNN/outputs/sweep_results.csv`, and `CNN/outputs/sweep_results.json`.
 
 ## Generate Train-vs-Test Evaluation Reports
 
@@ -101,7 +136,8 @@ python -m pip install kagglehub ultralytics pandas matplotlib seaborn
 3. Add or generate local `train_results*/` experiment folders with `weights/best.pt` checkpoints.
 4. Validate checkpoints with `python YOLO/test/test.py`.
 5. Generate comparison reports with `python YOLO/evaluation/evaluation.py`.
+6. Train or evaluate the CNN baseline with the scripts in `CNN/`.
 
 ## Git Hygiene
 
-Keep datasets, checkpoints, generated caches, and local runtime files out of commits. The existing `.gitignore` covers the common local artifacts for this project.
+Keep datasets, checkpoints, generated caches, local runtime files, and presentation exports out of commits. The existing `.gitignore` covers the common local artifacts for this project.
