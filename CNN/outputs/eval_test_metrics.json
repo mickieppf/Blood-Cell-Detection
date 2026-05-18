@@ -1,0 +1,57 @@
+{
+  "checkpoint": "C:\\Users\\usEr\\Downloads\\Research\\CNN\\outputs\\best_model.pt",
+  "dataset_root": "C:\\Users\\usEr\\Downloads\\Research\\blood-cell-detection-datatset",
+  "split": "test",
+  "score_threshold": 0.65,
+  "iou_threshold": 0.5,
+  "nms_iou_threshold": 0.18,
+  "model_score_threshold": 0.05,
+  "num_images": 36,
+  "metrics": {
+    "micro_precision": 0.692047,
+    "micro_recall": 0.868365,
+    "micro_f1": 0.770245,
+    "mAP50": 0.852034,
+    "tp": 409,
+    "fp": 182,
+    "fn": 62
+  },
+  "per_class": [
+    {
+      "class_id": 0,
+      "class_name": "Platelets",
+      "gt_count": 36,
+      "tp": 32,
+      "fp": 17,
+      "fn": 4,
+      "precision": 0.653061,
+      "recall": 0.888889,
+      "f1": 0.752941,
+      "ap50": 0.796286
+    },
+    {
+      "class_id": 1,
+      "class_name": "RBC",
+      "gt_count": 398,
+      "tp": 341,
+      "fp": 164,
+      "fn": 57,
+      "precision": 0.675248,
+      "recall": 0.856784,
+      "f1": 0.75526,
+      "ap50": 0.787572
+    },
+    {
+      "class_id": 2,
+      "class_name": "WBC",
+      "gt_count": 37,
+      "tp": 36,
+      "fp": 1,
+      "fn": 1,
+      "precision": 0.972973,
+      "recall": 0.972973,
+      "f1": 0.972973,
+      "ap50": 0.972243
+    }
+  ]
+}
